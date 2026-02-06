@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Valentine for Humaira</title>
+
+<style>
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  text-align: center;
+  background: linear-gradient(270deg, #ffe6ea, #ffd1dc, #ffc2d1);
+  background-size: 600% 600%;
+  animation: bgFlow 12s ease infinite;
+  margin: 0;
+  overflow: hidden;
+}
+
+@keyframes bgFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+h1 {
+  font-size: 44px;
+  margin-top: 120px;
+  color: #b3003b;
+}
+
+h2 {
+  color: #cc0044;
+}
+
+button {
+  font-size: 26px;
+  padding: 16px 40px;
+  margin: 20px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+#yes {
+  background: #ff4d6d;
+  color: white;
+  font-size: 34px;
+  box-shadow: 0 8px 25px rgba(255,77,109,0.5);
+  animation: heartbeat 1.4s infinite;
+}
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.1); }
+  40% { transform: scale(1); }
+  60% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+#no {
+  background: #eee;
+  position: absolute;
+}
+
+/* Floating hearts */
+.heart {
+  position: fixed;
+  bottom: -20px;
+  animation: floatUp 6s linear forwards;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-120vh) scale(1.6); opacity: 0; }
+}
+
+/* Heart burst */
+.burst {
+  position: fixed;
+  font-size: 22px;
+  animation: burst 1s ease-out forwards;
+}
+
+@keyframes burst {
+  0% { transform: scale(0); opacity: 1; }
+  100% { transform: translate(var(--x), var(--y)) scale(1.5); opacity: 0; }
+}
+
+/* Fade */
+.fade {
+  animation: fadeIn 2s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+
+<body>
+
+<h1 class="fade">Humaira 💖<br>Will you be my Valentine?</h1>
+
+<button id="yes" onclick="yesClicked()">YES 💘</button>
+<button id="no" onmouseover="moveNo()">NO 😜</button>
+
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7e4e7fd1a2.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+/* NO button runs away faster */
+function moveNo() {
+  const no = document.getElementById("no");
+  const x = Math.random() * (window.innerWidth - 140);
+  const y = Math.random() * (window.innerHeight - 80);
+  no.style.left = x + "px";
+  no.style.top = y + "px";
+}
+
+/* YES clicked */
+function yesClicked() {
+  document.getElementById("music").play();
+  heartBurst();
+
+  document.body.innerHTML = `
+    <h1 class="fade">Humaira ❤️</h1>
+    <h2 id="typed"></h2>
+    <h1 class="fade">Happy Valentine’s Day 💕</h1>
+  `;
+
+  typeText(
+    "I miss you always,\n even when you don’t believe me 💔\n\nYou mean more to me than words can say.",
+    document.getElementById("typed")
+  );
+}
+
+/* Typing effect */
+function typeText(text, element) {
+  let i = 0;
+  element.style.whiteSpace = "pre-line";
+  const interval = setInterval(() => {
+    element.innerHTML += text.charAt(i);
+    i++;
+    if (i >= text.length) clearInterval(interval);
+  }, 50);
+}
+
+/* Floating hearts */
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = Math.random() > 0.5 ? "❤️" : "💖";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (20 + Math.random() * 30) + "px";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}, 220);
+
+/* Heart explosion */
+function heartBurst() {
+  for (let i = 0; i < 30; i++) {
+    const h = document.createElement("div");
+    h.className = "burst";
+    h.innerHTML = "❤️";
+    h.style.left = "50vw";
+    h.style.top = "50vh";
+    h.style.setProperty("--x", (Math.random()*400-200)+"px");
+    h.style.setProperty("--y", (Math.random()*400-200)+"px");
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 1000);
+  }
+}
+</script>
+
+</body>
+</html>
